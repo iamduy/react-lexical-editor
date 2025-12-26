@@ -1,4 +1,4 @@
-export interface ReactLexicalEditorProps {
+export interface ReactEditorUltimateProps {
   value?: string;
   onChange?: (value: string) => void;
   onUpload?: (file: File) => Promise<string | undefined>;

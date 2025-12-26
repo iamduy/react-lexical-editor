@@ -5,17 +5,17 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { SettingsContext } from './context/SettingsContext';
 import { SharedHistoryContext } from './context/SharedHistoryContext';
 import { ToolbarContext } from './context/ToolbarContext';
-import Editor from './ReactLexicalEditor';
+import Editor from './ReactEditorUltimate';
 import PlaygroundNodes from './nodes/PlaygroundNodes';
 import { TableContext } from './plugins/TablePlugin';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
-import { ReactLexicalEditorProps } from './types';
+import { ReactEditorUltimateProps } from './types';
 
-export default function App(props: ReactLexicalEditorProps) {
+export default function App(props: ReactEditorUltimateProps) {
   const { disabled = false, ...rest } = props;
 
   const initialConfig = {
-    namespace: 'ReactLexicalEditor',
+    namespace: 'ReactEditorUltimate',
     theme: PlaygroundEditorTheme,
     onError: (error: Error) => {
       console.error(error);

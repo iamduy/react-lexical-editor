@@ -1,4 +1,4 @@
-# react-lexical-editor
+# react-editor-ultimate
 
 A powerful, feature-rich WYSIWYG editor built with [Lexical](https://lexical.dev/) for React applications. Provides an intuitive editing experience with support for images, tables, links, and extensive text formatting.
 
@@ -20,13 +20,13 @@ A powerful, feature-rich WYSIWYG editor built with [Lexical](https://lexical.dev
 
 ```bash
 # With npm
-npm install react-lexical-editor
+npm install react-editor-ultimate
 
 # With yarn
-yarn add react-lexical-editor
+yarn add react-editor-ultimate
 
 # With pnpm
-pnpm add react-lexical-editor
+pnpm add react-editor-ultimate
 ```
 
 ## 🔧 Compatibility
@@ -59,8 +59,8 @@ pnpm add react-lexical-editor
 ### Basic Usage
 
 ```tsx
-import { ReactLexicalEditor } from 'react-lexical-editor';
-import 'react-lexical-editor/dist/index.css'; // Import styles
+import { ReactLexicalEditor } from 'react-editor-ultimate';
+import 'react-editor-ultimate/dist/index.css'; // Import styles
 
 function App() {
   const [content, setContent] = useState<string>('');
@@ -78,8 +78,8 @@ function App() {
 ### With Initial Content
 
 ```tsx
-import { ReactLexicalEditor } from 'react-lexical-editor';
-import 'react-lexical-editor/dist/index.css';
+import { ReactLexicalEditor } from 'react-editor-ultimate';
+import 'react-editor-ultimate/dist/index.css';
 
 function App() {
   const initialContent = `
@@ -99,8 +99,8 @@ function App() {
 ### With Image Upload
 
 ```tsx
-import { ReactLexicalEditor } from 'react-lexical-editor';
-import 'react-lexical-editor/dist/index.css';
+import { ReactLexicalEditor } from 'react-editor-ultimate';
+import 'react-editor-ultimate/dist/index.css';
 
 function App() {
   const handleImageUpload = async (file: File): Promise<string | undefined> => {
@@ -134,8 +134,8 @@ function App() {
 ### With Custom Styling
 
 ```tsx
-import { ReactLexicalEditor } from 'react-lexical-editor';
-import 'react-lexical-editor/dist/index.css';
+import { ReactLexicalEditor } from 'react-editor-ultimate';
+import 'react-editor-ultimate/dist/index.css';
 
 function App() {
   return (
@@ -155,8 +155,8 @@ function App() {
 ### With Loading State
 
 ```tsx
-import { ReactLexicalEditor } from 'react-lexical-editor';
-import 'react-lexical-editor/dist/index.css';
+import { ReactLexicalEditor } from 'react-editor-ultimate';
+import 'react-editor-ultimate/dist/index.css';
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -207,7 +207,7 @@ function App() {
 ### Types
 
 ```typescript
-import type { ReactLexicalEditorProps } from 'react-lexical-editor';
+import type { ReactLexicalEditorProps } from 'react-editor-ultimate';
 
 interface ReactLexicalEditorProps {
   value?: string;
@@ -228,7 +228,7 @@ interface ReactLexicalEditorProps {
 Import the default stylesheet in your app:
 
 ```tsx
-import 'react-lexical-editor/dist/index.css';
+import 'react-editor-ultimate/dist/index.css';
 ```
 
 ### Custom Styling
@@ -297,9 +297,9 @@ Override default styles using CSS:
 ### Form Integration (React Hook Form)
 
 ```tsx
-import { ReactLexicalEditor } from 'react-lexical-editor';
+import { ReactLexicalEditor } from 'react-editor-ultimate';
 import { useForm, Controller } from 'react-hook-form';
-import 'react-lexical-editor/dist/index.css';
+import 'react-editor-ultimate/dist/index.css';
 
 interface FormData {
   title: string;
@@ -341,8 +341,8 @@ function MyForm() {
 
 ```tsx
 import { create } from 'zustand';
-import { ReactLexicalEditor } from 'react-lexical-editor';
-import 'react-lexical-editor/dist/index.css';
+import { ReactLexicalEditor } from 'react-editor-ultimate';
+import 'react-editor-ultimate/dist/index.css';
 
 interface EditorStore {
   content: string;
@@ -367,11 +367,11 @@ function Editor() {
 'use client'; // Mark as client component in Next.js 13+
 
 import dynamic from 'next/dynamic';
-import 'react-lexical-editor/dist/index.css';
+import 'react-editor-ultimate/dist/index.css';
 
 // Dynamically import to avoid SSR issues
 const ReactLexicalEditor = dynamic(
-  () => import('react-lexical-editor').then((mod) => mod.ReactLexicalEditor),
+  () => import('react-editor-ultimate').then((mod) => mod.ReactLexicalEditor),
   {
     ssr: false,
     loading: () => <div>Loading editor...</div>,
@@ -387,9 +387,9 @@ export default function Page() {
 
 ```tsx
 import { useState, useEffect } from 'react';
-import { ReactLexicalEditor } from 'react-lexical-editor';
+import { ReactLexicalEditor } from 'react-editor-ultimate';
 import { useDebouncedCallback } from 'use-debounce';
-import 'react-lexical-editor/dist/index.css';
+import 'react-editor-ultimate/dist/index.css';
 
 function AutoSaveEditor() {
   const [content, setContent] = useState('');
@@ -576,9 +576,9 @@ npm run rollup
 # In the package directory
 npm pack
 
-# This creates react-lexical-editor-1.0.0.tgz
+# This creates react-editor-ultimate-1.0.0.tgz
 # In your test project
-npm install /path/to/react-lexical-editor-1.0.0.tgz
+npm install /path/to/react-editor-ultimate-1.0.0.tgz
 ```
 
 #### Method 2: Using npm link
@@ -588,7 +588,7 @@ npm install /path/to/react-lexical-editor-1.0.0.tgz
 npm link
 
 # In your test project
-npm link react-lexical-editor
+npm link react-editor-ultimate
 ```
 
 #### Method 3: Using yarn
@@ -598,7 +598,7 @@ npm link react-lexical-editor
 npm pack
 
 # In your test project
-yarn add file:/path/to/react-lexical-editor-1.0.0.tgz
+yarn add file:/path/to/react-editor-ultimate-1.0.0.tgz
 ```
 
 ## 🐛 Troubleshooting
@@ -608,7 +608,7 @@ yarn add file:/path/to/react-lexical-editor-1.0.0.tgz
 Make sure you import the CSS file:
 
 ```tsx
-import 'react-lexical-editor/dist/index.css';
+import 'react-editor-ultimate/dist/index.css';
 ```
 
 ### SSR/Next.js issues
@@ -617,7 +617,7 @@ Use dynamic import with `ssr: false`:
 
 ```tsx
 const Editor = dynamic(
-  () => import('react-lexical-editor').then((m) => m.ReactLexicalEditor),
+  () => import('react-editor-ultimate').then((m) => m.ReactLexicalEditor),
   { ssr: false }
 );
 ```
@@ -652,5 +652,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📞 Support
 
 - 📧 Email: duongkhanhduy.dev@gmail.com
-- 🐛 Issues: [GitHub Issues](https://github.com/iamduy/react-lexical-editor/issues)
-- 📖 Documentation: [Full Documentation](https://github.com/iamduy/react-lexical-editor)
+- 🐛 Issues: [GitHub Issues](https://github.com/iamduy/react-editor-ultimate/issues)
+- 📖 Documentation: [Full Documentation](https://github.com/iamduy/react-editor-ultimate)

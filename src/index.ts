@@ -1,2 +1,2 @@
-export { default as ReactLexicalEditor } from './App';
-export type { ReactLexicalEditorProps } from './types';
+export { default as ReactEditorUltimate } from './App';
+export type { ReactEditorUltimateProps } from './types';
