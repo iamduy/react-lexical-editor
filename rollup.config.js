@@ -14,32 +14,40 @@ export default [
     input: 'src/index.ts',
     output: [
       {
-        dir: 'dist',
+        file: 'dist/index.js',
         format: 'cjs',
-        sourcemap: true,
-        entryFileNames: 'index.js',
+        sourcemap: false,
+        exports: 'named',
+        inlineDynamicImports: true, // Inline dynamic imports để dùng single file
       },
       {
-        dir: 'dist',
+        file: 'dist/index.mjs',
         format: 'esm',
-        sourcemap: true,
-        entryFileNames: 'index.mjs',
+        sourcemap: false,
+        exports: 'named',
+        inlineDynamicImports: true, // Inline dynamic imports để dùng single file
       },
     ],
     plugins: [
       url({
         include: ['**/*.svg', '**/*.png', '**/*.jpg'],
-        limit: 0, // luôn copy file, không base64
+        limit: 0,
+        destDir: 'dist/assets',
       }),
       peerDepsExternal(),
-      resolve(),
+      resolve({
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      }),
       commonjs(),
       typescript({
         tsconfig: './tsconfig.json',
+        declaration: false, // Type definitions sẽ build riêng
+        declarationMap: false,
       }),
       postcss({
         extract: true,
         minimize: true,
+        sourceMap: false, // Tắt sourcemap cho CSS
         plugins: [
           postcssImport(),
           postcssUrl({
@@ -47,11 +55,26 @@ export default [
           }),
         ],
       }),
-      terser(),
+      terser({
+        compress: {
+          drop_console: true, // Remove console.log
+          drop_debugger: true,
+          pure_funcs: ['console.log', 'console.info'],
+        },
+        format: {
+          comments: false, // Remove comments
+        },
+      }),
     ],
-    external: ['react', 'react-dom'],
+    external: [
+      'react',
+      'react-dom',
+      'react/jsx-runtime',
+      // External các Lexical packages để không bundle
+      /@lexical\/.*/,
+      'lexical',
+    ],
     onwarn(warning, warn) {
-      // Suppress "use client" directive warnings
       if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
         return;
       }
