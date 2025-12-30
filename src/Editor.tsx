@@ -1,25 +1,35 @@
+// React and hooks
+import { useState } from 'react';
+
+// Lexical core plugins
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
-import { useState } from 'react';
 
+// Contexts
 import { useSettings } from './context/SettingsContext';
 import { useSharedHistoryContext } from './context/SharedHistoryContext';
+
+// Custom plugins
 import AutoLinkPlugin from './plugins/AutoLinkPlugin';
 import DragDropPlugin from './plugins/DragDropPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import ImagesPlugin from './plugins/ImagesPlugin';
 import InitialValuePlugin from './plugins/InitialValuePlugin';
+import LinkPlugin from './plugins/LinkPlugin';
 import TableActionMenuPlugin from './plugins/TableActionMenuPlugin';
 import TableCellResizer from './plugins/TableCellResizer';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
-import { ReactLexicalTextEditorProps } from './types';
+
+// UI components
 import ContentEditable from './ui/ContentEditable';
 import LoadingLayer from './ui/LoadingLayer';
+
+// Types and utils
+import { ReactLexicalTextEditorProps } from './types';
 import { lexicalToHtml } from './utils/htmlSerializer';
 
 const Editor = ({
@@ -32,7 +42,7 @@ const Editor = ({
   style,
 }: ReactLexicalTextEditorProps) => {
   const {
-    settings: { isRichText },
+    settings: { isRichText, hasLinkAttributes },
   } = useSettings();
   const { historyState } = useSharedHistoryContext();
   const [floatingAnchorElem, setFloatingAnchorElem] =
@@ -90,6 +100,7 @@ const Editor = ({
         )}
         <ImagesPlugin />
         <DragDropPlugin onUpload={onUpload} />
+        <LinkPlugin hasLinkAttributes={hasLinkAttributes} />
         <InitialValuePlugin value={value} />
         <OnChangePlugin
           onChange={(editorState, editor) => {
