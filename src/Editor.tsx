@@ -44,6 +44,7 @@ const Editor = ({
   className,
   loading,
   style,
+  toolbarConfig,
 }: ReactLexicalTextEditorProps) => {
   const {
     settings: { isRichText, hasLinkAttributes },
@@ -92,6 +93,7 @@ const Editor = ({
           setActiveEditor={setActiveEditor}
           setIsLinkEditMode={setIsLinkEditMode}
           onUpload={onUpload}
+          toolbarConfig={toolbarConfig}
         />
       )}
 

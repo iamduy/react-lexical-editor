@@ -205,21 +205,238 @@ function App() {
 
 #### `ReactLexicalEditorProps`
 
-| Prop          | Type                                           | Default           | Description                                                                        |
-| ------------- | ---------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------- |
-| `value`       | `string`                                       | `undefined`       | HTML content to initialize or control the editor. Can be used for controlled mode. |
-| `onChange`    | `(html: string) => void`                       | `undefined`       | Callback fired when editor content changes. Receives HTML string.                  |
-| `onUpload`    | `(file: File) => Promise<string \| undefined>` | `undefined`       | Async function to handle image uploads. Must return the uploaded image URL.        |
-| `placeholder` | `string`                                       | `"Enter text..."` | Placeholder text shown when editor is empty.                                       |
-| `className`   | `string`                                       | `undefined`       | Additional CSS class name for the editor container.                                |
-| `style`       | `React.CSSProperties`                          | `undefined`       | Inline styles for the editor content area.                                         |
-| `loading`     | `boolean`                                      | `false`           | Shows loading overlay when true. Useful during save operations.                    |
-| `disabled`    | `boolean`                                      | `false`           | Disables editing when true (read-only mode).                                       |
+| Prop            | Type                                           | Default           | Description                                                                        |
+| --------------- | ---------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------- |
+| `value`         | `string`                                       | `undefined`       | HTML content to initialize or control the editor. Can be used for controlled mode. |
+| `onChange`      | `(html: string) => void`                       | `undefined`       | Callback fired when editor content changes. Receives HTML string.                  |
+| `onUpload`      | `(file: File) => Promise<string \| undefined>` | `undefined`       | Async function to handle image uploads. Must return the uploaded image URL.        |
+| `placeholder`   | `string`                                       | `"Enter text..."` | Placeholder text shown when editor is empty.                                       |
+| `className`     | `string`                                       | `undefined`       | Additional CSS class name for the editor container.                                |
+| `style`         | `React.CSSProperties`                          | `undefined`       | Inline styles for the editor content area.                                         |
+| `loading`       | `boolean`                                      | `false`           | Shows loading overlay when true. Useful during save operations.                    |
+| `disabled`      | `boolean`                                      | `false`           | Disables editing when true (read-only mode).                                       |
+| `toolbarConfig` | `ToolbarConfig`                                | `{}`              | Configuration object to customize toolbar visibility. See Toolbar Configuration.   |
+
+### Toolbar Configuration
+
+The `toolbarConfig` prop allows you to customize which toolbar buttons and features are visible in the editor. This provides fine-grained control over the editing experience.
+
+#### Basic Usage
+
+```tsx
+<ReactLexicalTextEditor
+  toolbarConfig={{
+    // Hide all insert options
+    insert: false,
+
+    // Hide font size but keep font family
+    font: {
+      fontFamily: true,
+      fontSize: false,
+    },
+  }}
+/>
+```
+
+#### `ToolbarConfig` Interface
+
+```typescript
+interface ToolbarConfig {
+  undoRedo?:
+    | boolean
+    | {
+        undo?: boolean;
+        redo?: boolean;
+      };
+
+  blockFormat?: boolean;
+
+  font?:
+    | boolean
+    | {
+        fontFamily?: boolean;
+        fontSize?: boolean;
+      };
+
+  textFormat?:
+    | boolean
+    | {
+        bold?: boolean;
+        italic?: boolean;
+        underline?: boolean;
+        code?: boolean;
+        link?: boolean;
+      };
+
+  color?:
+    | boolean
+    | {
+        textColor?: boolean;
+        backgroundColor?: boolean;
+      };
+
+  textStyles?:
+    | boolean
+    | {
+        lowercase?: boolean;
+        uppercase?: boolean;
+        capitalize?: boolean;
+        strikethrough?: boolean;
+        subscript?: boolean;
+        superscript?: boolean;
+        highlight?: boolean;
+        clearFormatting?: boolean;
+      };
+
+  insert?:
+    | boolean
+    | {
+        image?: boolean;
+        table?: boolean;
+      };
+
+  alignment?: boolean;
+}
+```
+
+#### Configuration Examples
+
+**Example 1: Minimal Toolbar (Basic Formatting Only)**
+
+```tsx
+<ReactLexicalTextEditor
+  toolbarConfig={{
+    undoRedo: true,
+    textFormat: {
+      bold: true,
+      italic: true,
+      underline: true,
+    },
+    // All other features hidden by default
+    blockFormat: false,
+    font: false,
+    color: false,
+    textStyles: false,
+    insert: false,
+    alignment: false,
+  }}
+/>
+```
+
+**Example 2: Hide Image Upload, Keep Table**
+
+```tsx
+<ReactLexicalTextEditor
+  toolbarConfig={{
+    insert: {
+      image: false, // Hide image upload
+      table: true, // Keep table insertion
+    },
+  }}
+/>
+```
+
+**Example 3: Text Formatting Only (No Colors or Alignment)**
+
+```tsx
+<ReactLexicalTextEditor
+  toolbarConfig={{
+    undoRedo: true,
+    blockFormat: true,
+    textFormat: true,
+    color: false, // Hide color pickers
+    alignment: false, // Hide alignment options
+    insert: false, // Hide insert menu
+  }}
+/>
+```
+
+**Example 4: Selective Text Styles**
+
+```tsx
+<ReactLexicalTextEditor
+  toolbarConfig={{
+    textStyles: {
+      strikethrough: true,
+      highlight: true,
+      clearFormatting: true,
+      // Hide case transformation options
+      lowercase: false,
+      uppercase: false,
+      capitalize: false,
+      subscript: false,
+      superscript: false,
+    },
+  }}
+/>
+```
+
+**Example 5: Read-Only with Limited Toolbar**
+
+```tsx
+<ReactLexicalTextEditor
+  disabled={true}
+  toolbarConfig={{
+    // Show only view-related options
+    undoRedo: false,
+    textFormat: false,
+    insert: false,
+    // Users can still select text alignment to view
+    alignment: true,
+  }}
+/>
+```
+
+**Example 6: Custom Blog Editor**
+
+```tsx
+<ReactLexicalTextEditor
+  toolbarConfig={{
+    undoRedo: true,
+    blockFormat: true, // Headings, lists, quotes
+    font: {
+      fontFamily: false, // Use default font only
+      fontSize: true,
+    },
+    textFormat: {
+      bold: true,
+      italic: true,
+      underline: true,
+      code: true,
+      link: true,
+    },
+    color: {
+      textColor: true,
+      backgroundColor: false, // No background color
+    },
+    textStyles: {
+      strikethrough: true,
+      highlight: true,
+      clearFormatting: true,
+    },
+    insert: {
+      image: true,
+      table: true,
+    },
+    alignment: true,
+  }}
+/>
+```
+
+#### Default Behavior
+
+- **All features are visible by default** if `toolbarConfig` is not provided
+- Setting a group to `false` hides all options in that group
+- Setting a group to `true` or omitting it shows all options in that group
+- Individual options can be controlled when passing an object
 
 ### Types
 
 ```typescript
-import type { ReactLexicalEditorProps } from 'react-lexical-text-editor';
+import type {
+  ReactLexicalEditorProps,
+  ToolbarConfig,
+} from 'react-lexical-text-editor';
 
 interface ReactLexicalEditorProps {
   value?: string;
@@ -230,6 +447,57 @@ interface ReactLexicalEditorProps {
   loading?: boolean;
   disabled?: boolean;
   style?: React.CSSProperties;
+  toolbarConfig?: ToolbarConfig;
+}
+
+interface ToolbarConfig {
+  undoRedo?:
+    | boolean
+    | {
+        undo?: boolean;
+        redo?: boolean;
+      };
+  blockFormat?: boolean;
+  font?:
+    | boolean
+    | {
+        fontFamily?: boolean;
+        fontSize?: boolean;
+      };
+  textFormat?:
+    | boolean
+    | {
+        bold?: boolean;
+        italic?: boolean;
+        underline?: boolean;
+        code?: boolean;
+        link?: boolean;
+      };
+  color?:
+    | boolean
+    | {
+        textColor?: boolean;
+        backgroundColor?: boolean;
+      };
+  textStyles?:
+    | boolean
+    | {
+        lowercase?: boolean;
+        uppercase?: boolean;
+        capitalize?: boolean;
+        strikethrough?: boolean;
+        subscript?: boolean;
+        superscript?: boolean;
+        highlight?: boolean;
+        clearFormatting?: boolean;
+      };
+  insert?:
+    | boolean
+    | {
+        image?: boolean;
+        table?: boolean;
+      };
+  alignment?: boolean;
 }
 ```
 
