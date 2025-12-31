@@ -1,3 +1,4 @@
+import { getImageUrlOrBase64 } from "../../utils/imageUpload";
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -100,10 +101,11 @@ export function InsertImageUploadedDialogBody({
   const loadImage = (files: FileList | null) => {
     if (files !== null && files.length > 0) {
       setIsUploading(true);
-      onUpload?.(files[0])
-        .then((url) => {
-          if (url) {
-            setSrc(url);
+      const file = files[0];
+      getImageUrlOrBase64(file, onUpload)
+        .then((src) => {
+          if (src) {
+            setSrc(src);
           }
           setIsUploading(false);
         })

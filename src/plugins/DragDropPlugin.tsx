@@ -2,6 +2,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { COMMAND_PRIORITY_LOW, DRAGOVER_COMMAND, DROP_COMMAND } from "lexical";
 import { JSX, useEffect } from "react";
 import { INSERT_IMAGE_COMMAND } from "./ImagesPlugin";
+import { getImageUrlOrBase64 } from "../utils/imageUpload";
 
 export default function DragDropPastePlugin({
   onUpload,
@@ -30,11 +31,11 @@ export default function DragDropPastePlugin({
         if (files && files.length > 0) {
           const file = files[0];
           if (file.type.startsWith("image/")) {
-            onUpload?.(file).then((url) => {
-              if (url) {
+            getImageUrlOrBase64(file, onUpload).then((src) => {
+              if (src) {
                 editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
                   altText: file.name,
-                  src: url,
+                  src,
                 });
               }
             });
@@ -54,11 +55,11 @@ export default function DragDropPastePlugin({
           if (items[i].type.indexOf("image") !== -1) {
             const file = items[i].getAsFile();
             if (file) {
-              onUpload?.(file).then((url) => {
-                if (url) {
+              getImageUrlOrBase64(file, onUpload).then((src) => {
+                if (src) {
                   editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
                     altText: file.name,
-                    src: url,
+                    src,
                   });
                 }
               });
