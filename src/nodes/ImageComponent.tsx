@@ -6,21 +6,21 @@
  *
  */
 
-import type { LexicalCommand, LexicalEditor, NodeKey } from 'lexical';
-import type { JSX } from 'react';
+import type { LexicalCommand, LexicalEditor, NodeKey } from "lexical";
+import type { JSX } from "react";
 
-import './ImageNode.css';
+import "./ImageNode.css";
 
 // import { useCollaborationContext } from "@lexical/react/LexicalCollaborationContext";
 // import { CollaborationPlugin } from "@lexical/react/LexicalCollaborationPlugin";
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { LexicalNestedComposer } from '@lexical/react/LexicalNestedComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
-import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection';
-import { mergeRegister } from '@lexical/utils';
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { LexicalNestedComposer } from "@lexical/react/LexicalNestedComposer";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { useLexicalEditable } from "@lexical/react/useLexicalEditable";
+import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection";
+import { mergeRegister } from "@lexical/utils";
 import {
   $getNodeByKey,
   $getRoot,
@@ -37,38 +37,26 @@ import {
   KEY_ENTER_COMMAND,
   KEY_ESCAPE_COMMAND,
   SELECTION_CHANGE_COMMAND,
-} from 'lexical';
-import * as React from 'react';
-import {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+} from "lexical";
+import * as React from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 // import { createWebsocketProvider } from "../collaboration";
-import { useSharedHistoryContext } from '../context/SharedHistoryContext';
-import brokenImage from '../images/image-broken.svg';
-import ContentEditable from '../ui/ContentEditable';
-import ImageResizer from '../ui/ImageResizer';
-import { $isCaptionEditorEmpty, $isImageNode } from './ImageNode';
+import { useSharedHistoryContext } from "../context/SharedHistoryContext";
+import brokenImage from "../images/image-broken.svg";
+import ContentEditable from "../ui/ContentEditable";
+import ImageResizer from "../ui/ImageResizer";
+import { $isCaptionEditorEmpty, $isImageNode } from "./ImageNode";
 
-type ImageStatus =
-  | { error: true }
-  | { error: false; width: number; height: number };
+type ImageStatus = { error: true } | { error: false; width: number; height: number };
 
 const imageCache = new Map<string, Promise<ImageStatus> | ImageStatus>();
 
-export const RIGHT_CLICK_IMAGE_COMMAND: LexicalCommand<MouseEvent> =
-  createCommand('RIGHT_CLICK_IMAGE_COMMAND');
+export const RIGHT_CLICK_IMAGE_COMMAND: LexicalCommand<MouseEvent> = createCommand(
+  "RIGHT_CLICK_IMAGE_COMMAND"
+);
 
-function DisableCaptionOnBlur({
-  setShowCaption,
-}: {
-  setShowCaption: (show: boolean) => void;
-}) {
+function DisableCaptionOnBlur({ setShowCaption }: { setShowCaption: (show: boolean) => void }) {
   const [editor] = useLexicalComposerContext();
   useEffect(() =>
     editor.registerCommand(
@@ -87,7 +75,7 @@ function DisableCaptionOnBlur({
 
 function useSuspenseImage(src: string): ImageStatus {
   let cached = imageCache.get(src);
-  if (cached && 'error' in cached && typeof cached.error === 'boolean') {
+  if (cached && "error" in cached && typeof cached.error === "boolean") {
     return cached;
   } else if (!cached) {
     cached = new Promise<ImageStatus>((resolve) => {
@@ -111,7 +99,7 @@ function useSuspenseImage(src: string): ImageStatus {
 }
 
 function isSVG(src: string): boolean {
-  return src.toLowerCase().endsWith('.svg');
+  return src.toLowerCase().endsWith(".svg");
 }
 
 function LazyImage({
@@ -126,11 +114,11 @@ function LazyImage({
 }: {
   altText: string;
   className: string | null;
-  height: 'inherit' | number;
+  height: "inherit" | number;
   imageRef: { current: null | HTMLImageElement };
   maxWidth: number;
   src: string;
-  width: 'inherit' | number;
+  width: "inherit" | number;
   onError: () => void;
 }): JSX.Element {
   const isSVGImage = isSVG(src);
@@ -196,7 +184,7 @@ function LazyImage({
       ref={imageRef}
       style={imageStyle}
       onError={onError}
-      draggable='false'
+      draggable="false"
     />
   );
 }
@@ -211,8 +199,8 @@ function BrokenImage(): JSX.Element {
         opacity: 0.2,
         width: 200,
       }}
-      draggable='false'
-      alt='Broken image'
+      draggable="false"
+      alt="Broken image"
     />
   );
 }
@@ -233,19 +221,18 @@ export default function ImageComponent({
 }: {
   altText: string;
   caption: LexicalEditor;
-  height: 'inherit' | number;
+  height: "inherit" | number;
   maxWidth: number;
   nodeKey: NodeKey;
   resizable: boolean;
   showCaption: boolean;
   src: string;
-  width: 'inherit' | number;
+  width: "inherit" | number;
   captionsEnabled: boolean;
 }): JSX.Element {
   const imageRef = useRef<null | HTMLImageElement>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
-  const [isSelected, setSelected, clearSelection] =
-    useLexicalNodeSelection(nodeKey);
+  const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
   const [isResizing, setIsResizing] = useState<boolean>(false);
   // const { isCollabActive } = useCollaborationContext();
   const [editor] = useLexicalComposerContext();
@@ -277,10 +264,7 @@ export default function ImageComponent({
           event.preventDefault();
           caption.focus();
           return true;
-        } else if (
-          buttonElem !== null &&
-          buttonElem !== document.activeElement
-        ) {
+        } else if (buttonElem !== null && buttonElem !== document.activeElement) {
           event.preventDefault();
           buttonElem.focus();
           return true;
@@ -293,10 +277,7 @@ export default function ImageComponent({
 
   const $onEscape = useCallback(
     (event: KeyboardEvent) => {
-      if (
-        activeEditorRef.current === caption ||
-        buttonRef.current === event.target
-      ) {
+      if (activeEditorRef.current === caption || buttonRef.current === event.target) {
         $setSelection(null);
         editor.update(() => {
           setSelected(true);
@@ -340,7 +321,7 @@ export default function ImageComponent({
         const latestSelection = $getSelection();
         const domElement = event.target as HTMLElement;
         if (
-          domElement.tagName === 'IMG' &&
+          domElement.tagName === "IMG" &&
           $isRangeSelection(latestSelection) &&
           latestSelection.getNodes().length === 1
         ) {
@@ -379,29 +360,16 @@ export default function ImageComponent({
   useEffect(() => {
     let rootCleanup = noop;
     return mergeRegister(
-      editor.registerCommand<MouseEvent>(
-        CLICK_COMMAND,
-        onClick,
-        COMMAND_PRIORITY_LOW
-      ),
-      editor.registerCommand<MouseEvent>(
-        RIGHT_CLICK_IMAGE_COMMAND,
-        onClick,
-        COMMAND_PRIORITY_LOW
-      ),
+      editor.registerCommand<MouseEvent>(CLICK_COMMAND, onClick, COMMAND_PRIORITY_LOW),
+      editor.registerCommand<MouseEvent>(RIGHT_CLICK_IMAGE_COMMAND, onClick, COMMAND_PRIORITY_LOW),
       editor.registerCommand(KEY_ENTER_COMMAND, $onEnter, COMMAND_PRIORITY_LOW),
-      editor.registerCommand(
-        KEY_ESCAPE_COMMAND,
-        $onEscape,
-        COMMAND_PRIORITY_LOW
-      ),
+      editor.registerCommand(KEY_ESCAPE_COMMAND, $onEscape, COMMAND_PRIORITY_LOW),
       editor.registerRootListener((rootElement) => {
         rootCleanup();
         rootCleanup = noop;
         if (rootElement) {
-          rootElement.addEventListener('contextmenu', onRightClick);
-          rootCleanup = () =>
-            rootElement.removeEventListener('contextmenu', onRightClick);
+          rootElement.addEventListener("contextmenu", onRightClick);
+          rootCleanup = () => rootElement.removeEventListener("contextmenu", onRightClick);
         }
       }),
       () => rootCleanup()
@@ -424,10 +392,7 @@ export default function ImageComponent({
     });
   };
 
-  const onResizeEnd = (
-    nextWidth: 'inherit' | number,
-    nextHeight: 'inherit' | number
-  ) => {
+  const onResizeEnd = (nextWidth: "inherit" | number, nextHeight: "inherit" | number) => {
     // Delay hiding the resize bars for click case
     setTimeout(() => {
       setIsResizing(false);
@@ -457,11 +422,7 @@ export default function ImageComponent({
             <BrokenImage />
           ) : (
             <LazyImage
-              className={
-                isFocused
-                  ? `focused ${isInNodeSelection ? 'draggable' : ''}`
-                  : null
-              }
+              className={isFocused ? `focused ${isInNodeSelection ? "draggable" : ""}` : null}
               src={src}
               altText={altText}
               imageRef={imageRef}
@@ -474,7 +435,7 @@ export default function ImageComponent({
         </div>
 
         {showCaption && (
-          <div className='image-caption-container'>
+          <div className="image-caption-container">
             <LexicalNestedComposer initialEditor={caption}>
               <DisableCaptionOnBlur setShowCaption={setShowCaption} />
               {/* {isCollabActive ? (
@@ -490,9 +451,9 @@ export default function ImageComponent({
               <RichTextPlugin
                 contentEditable={
                   <ContentEditable
-                    placeholder='Enter a caption...'
-                    placeholderClassName='ImageNode__placeholder'
-                    className='ImageNode__contentEditable'
+                    placeholder="Enter a caption..."
+                    placeholderClassName="ImageNode__placeholder"
+                    className="ImageNode__contentEditable"
                   />
                 }
                 ErrorBoundary={LexicalErrorBoundary}

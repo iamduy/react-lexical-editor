@@ -6,8 +6,8 @@
  *
  */
 
-import { TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { HeadingTagType } from '@lexical/rich-text';
+import { TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { HeadingTagType } from "@lexical/rich-text";
 import {
   COMMAND_PRIORITY_NORMAL,
   FORMAT_ELEMENT_COMMAND,
@@ -17,11 +17,11 @@ import {
   KEY_DOWN_COMMAND,
   LexicalEditor,
   OUTDENT_CONTENT_COMMAND,
-} from 'lexical';
-import { Dispatch, useEffect } from 'react';
+} from "lexical";
+import { Dispatch, useEffect } from "react";
 
-import { useToolbarState } from '../../context/ToolbarContext';
-import { sanitizeUrl } from '../../utils/url';
+import { useToolbarState } from "../../context/ToolbarContext";
+import { sanitizeUrl } from "../../utils/url";
 import {
   clearFormatting,
   formatBulletList,
@@ -33,7 +33,7 @@ import {
   formatQuote,
   updateFontSize,
   UpdateFontSizeType,
-} from '../ToolbarPlugin/utils';
+} from "../ToolbarPlugin/utils";
 import {
   isCapitalize,
   isCenterAlign,
@@ -59,7 +59,7 @@ import {
   isSubscript,
   isSuperscript,
   isUppercase,
-} from './shortcuts';
+} from "./shortcuts";
 
 export default function ShortcutsPlugin({
   editor,
@@ -92,47 +92,39 @@ export default function ShortcutsPlugin({
       } else if (isFormatQuote(event)) {
         formatQuote(editor, toolbarState.blockType);
       } else if (isStrikeThrough(event)) {
-        editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
+        editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
       } else if (isLowercase(event)) {
-        editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'lowercase');
+        editor.dispatchCommand(FORMAT_TEXT_COMMAND, "lowercase");
       } else if (isUppercase(event)) {
-        editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'uppercase');
+        editor.dispatchCommand(FORMAT_TEXT_COMMAND, "uppercase");
       } else if (isCapitalize(event)) {
-        editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'capitalize');
+        editor.dispatchCommand(FORMAT_TEXT_COMMAND, "capitalize");
       } else if (isIndent(event)) {
         editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
       } else if (isOutdent(event)) {
         editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
       } else if (isCenterAlign(event)) {
-        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
+        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
       } else if (isLeftAlign(event)) {
-        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
+        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
       } else if (isRightAlign(event)) {
-        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
+        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
       } else if (isJustifyAlign(event)) {
-        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify');
+        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
       } else if (isSubscript(event)) {
-        editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'subscript');
+        editor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
       } else if (isSuperscript(event)) {
-        editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'superscript');
+        editor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
       } else if (isInsertCodeBlock(event)) {
-        editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
+        editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
       } else if (isIncreaseFontSize(event)) {
-        updateFontSize(
-          editor,
-          UpdateFontSizeType.increment,
-          toolbarState.fontSizeInputValue
-        );
+        updateFontSize(editor, UpdateFontSizeType.increment, toolbarState.fontSizeInputValue);
       } else if (isDecreaseFontSize(event)) {
-        updateFontSize(
-          editor,
-          UpdateFontSizeType.decrement,
-          toolbarState.fontSizeInputValue
-        );
+        updateFontSize(editor, UpdateFontSizeType.decrement, toolbarState.fontSizeInputValue);
       } else if (isClearFormatting(event)) {
         clearFormatting(editor);
       } else if (isInsertLink(event)) {
-        const url = toolbarState.isLink ? null : sanitizeUrl('https://');
+        const url = toolbarState.isLink ? null : sanitizeUrl("https://");
         setIsLinkEditMode(!toolbarState.isLink);
         editor.dispatchCommand(TOGGLE_LINK_COMMAND, url);
       } else {

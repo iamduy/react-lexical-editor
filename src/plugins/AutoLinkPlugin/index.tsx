@@ -6,12 +6,9 @@
  *
  */
 
-import type { JSX } from 'react';
+import type { JSX } from "react";
 
-import {
-  AutoLinkPlugin,
-  createLinkMatcherWithRegExp,
-} from '@lexical/react/LexicalAutoLinkPlugin';
+import { AutoLinkPlugin, createLinkMatcherWithRegExp } from "@lexical/react/LexicalAutoLinkPlugin";
 
 const URL_REGEX =
   /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)(?<![-.+():%])/;
@@ -21,7 +18,7 @@ const EMAIL_REGEX =
 
 const MATCHERS = [
   createLinkMatcherWithRegExp(URL_REGEX, (text) => {
-    return text.startsWith('http') ? text : `https://${text}`;
+    return text.startsWith("http") ? text : `https://${text}`;
   }),
   createLinkMatcherWithRegExp(EMAIL_REGEX, (text) => {
     return `mailto:${text}`;

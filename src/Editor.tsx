@@ -1,40 +1,40 @@
 // React and hooks
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 // Lexical core plugins
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 
 // Contexts
-import { useSettings } from './context/SettingsContext';
-import { useSharedHistoryContext } from './context/SharedHistoryContext';
+import { useSettings } from "./context/SettingsContext";
+import { useSharedHistoryContext } from "./context/SharedHistoryContext";
 
 // Custom plugins
-import AutoLinkPlugin from './plugins/AutoLinkPlugin';
-import DragDropPlugin from './plugins/DragDropPlugin';
-import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
-import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
-import ImagesPlugin from './plugins/ImagesPlugin';
-import InitialValuePlugin from './plugins/InitialValuePlugin';
-import LinkPlugin from './plugins/LinkPlugin';
-import ShortcutsPlugin from './plugins/ShortcutsPlugin';
-import TableActionMenuPlugin from './plugins/TableActionMenuPlugin';
-import TableCellResizer from './plugins/TableCellResizer';
-import ToolbarPlugin from './plugins/ToolbarPlugin';
+import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
+import DragDropPlugin from "./plugins/DragDropPlugin";
+import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
+import FloatingTextFormatToolbarPlugin from "./plugins/FloatingTextFormatToolbarPlugin";
+import ImagesPlugin from "./plugins/ImagesPlugin";
+import InitialValuePlugin from "./plugins/InitialValuePlugin";
+import LinkPlugin from "./plugins/LinkPlugin";
+import ShortcutsPlugin from "./plugins/ShortcutsPlugin";
+import TableActionMenuPlugin from "./plugins/TableActionMenuPlugin";
+import TableCellResizer from "./plugins/TableCellResizer";
+import ToolbarPlugin from "./plugins/ToolbarPlugin";
 
 // UI components
-import ContentEditable from './ui/ContentEditable';
-import LoadingLayer from './ui/LoadingLayer';
+import ContentEditable from "./ui/ContentEditable";
+import LoadingLayer from "./ui/LoadingLayer";
 
 // Types and utils
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { CAN_USE_DOM } from '@lexical/utils';
-import { ReactLexicalTextEditorProps } from './types';
-import { lexicalToHtml } from './utils/htmlSerializer';
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { CAN_USE_DOM } from "@lexical/utils";
+import { ReactLexicalTextEditorProps } from "./types";
+import { lexicalToHtml } from "./utils/htmlSerializer";
 
 const Editor = ({
   value,
@@ -50,10 +50,8 @@ const Editor = ({
     settings: { isRichText, hasLinkAttributes },
   } = useSettings();
   const { historyState } = useSharedHistoryContext();
-  const [floatingAnchorElem, setFloatingAnchorElem] =
-    useState<HTMLDivElement | null>(null);
-  const [isSmallWidthViewport, setIsSmallWidthViewport] =
-    useState<boolean>(false);
+  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
+  const [isSmallWidthViewport, setIsSmallWidthViewport] = useState<boolean>(false);
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
 
@@ -67,17 +65,17 @@ const Editor = ({
   useEffect(() => {
     const updateViewPortWidth = () => {
       const isNextSmallWidthViewport =
-        CAN_USE_DOM && window.matchMedia('(max-width: 1025px)').matches;
+        CAN_USE_DOM && window.matchMedia("(max-width: 1025px)").matches;
 
       if (isNextSmallWidthViewport !== isSmallWidthViewport) {
         setIsSmallWidthViewport(isNextSmallWidthViewport);
       }
     };
     updateViewPortWidth();
-    window.addEventListener('resize', updateViewPortWidth);
+    window.addEventListener("resize", updateViewPortWidth);
 
     return () => {
-      window.removeEventListener('resize', updateViewPortWidth);
+      window.removeEventListener("resize", updateViewPortWidth);
     };
   }, [isSmallWidthViewport]);
 
@@ -98,20 +96,14 @@ const Editor = ({
       )}
 
       {isRichText && (
-        <ShortcutsPlugin
-          editor={activeEditor}
-          setIsLinkEditMode={setIsLinkEditMode}
-        />
+        <ShortcutsPlugin editor={activeEditor} setIsLinkEditMode={setIsLinkEditMode} />
       )}
-      <div className='editor-container'>
+      <div className="editor-container">
         <RichTextPlugin
           contentEditable={
-            <div className='editor-scroller'>
-              <div className='editor' ref={onRef}>
-                <ContentEditable
-                  style={style}
-                  placeholder={placeholder || 'Enter text...'}
-                />
+            <div className="editor-scroller">
+              <div className="editor" ref={onRef}>
+                <ContentEditable style={style} placeholder={placeholder || "Enter text..."} />
               </div>
             </div>
           }
@@ -130,10 +122,7 @@ const Editor = ({
               isLinkEditMode={isLinkEditMode}
               setIsLinkEditMode={setIsLinkEditMode}
             />
-            <TableActionMenuPlugin
-              anchorElem={floatingAnchorElem}
-              cellMerge={true}
-            />
+            <TableActionMenuPlugin anchorElem={floatingAnchorElem} cellMerge={true} />
           </>
         )}
         {floatingAnchorElem && (

@@ -1,14 +1,11 @@
-import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html';
-import { $getRoot, type EditorState, type LexicalEditor } from 'lexical';
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
+import { $getRoot, type EditorState, type LexicalEditor } from "lexical";
 
 /**
  * Chuyển đổi Lexical Editor State sang HTML string
  */
-export const lexicalToHtml = (
-  editor: LexicalEditor,
-  editorState: EditorState
-): string => {
-  let html = '';
+export const lexicalToHtml = (editor: LexicalEditor, editorState: EditorState): string => {
+  let html = "";
   editorState.read(() => {
     html = $generateHtmlFromNodes(editor, null);
   });
@@ -18,7 +15,7 @@ export const lexicalToHtml = (
     html === '<p class="PlaygroundEditorTheme__paragraph"><br></p>' ||
     html === '<p class="PlaygroundEditorTheme__paragraph"></p>'
   ) {
-    return '';
+    return "";
   }
 
   return html;
@@ -30,7 +27,7 @@ export const lexicalToHtml = (
 export const htmlToLexical = (editor: LexicalEditor, html: string) => {
   editor.update(() => {
     const parser = new DOMParser();
-    const dom = parser.parseFromString(html || '', 'text/html');
+    const dom = parser.parseFromString(html || "", "text/html");
     const nodes = $generateNodesFromDOM(editor, dom);
 
     const root = $getRoot();
