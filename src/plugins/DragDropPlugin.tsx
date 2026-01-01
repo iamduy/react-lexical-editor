@@ -47,37 +47,5 @@ export default function DragDropPastePlugin({
     );
   }, [editor, onUpload]);
 
-  useEffect(() => {
-    const handlePaste = (event: ClipboardEvent) => {
-      const items = event.clipboardData?.items;
-      if (items) {
-        for (let i = 0; i < items.length; i++) {
-          if (items[i].type.indexOf("image") !== -1) {
-            const file = items[i].getAsFile();
-            if (file) {
-              getImageUrlOrBase64(file, onUpload).then((src) => {
-                if (src) {
-                  editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                    altText: file.name,
-                    src,
-                  });
-                }
-              });
-            }
-          }
-        }
-      }
-    };
-
-    return editor.registerRootListener((rootElement, prevRootElement) => {
-      if (prevRootElement) {
-        prevRootElement.removeEventListener("paste", handlePaste);
-      }
-      if (rootElement) {
-        rootElement.addEventListener("paste", handlePaste);
-      }
-    });
-  }, [editor, onUpload]);
-
   return null;
 }

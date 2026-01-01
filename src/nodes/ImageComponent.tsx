@@ -191,7 +191,6 @@ function LazyImage({
 
 function BrokenImage(): JSX.Element {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={brokenImage}
       style={{

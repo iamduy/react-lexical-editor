@@ -35,6 +35,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { CAN_USE_DOM } from "@lexical/utils";
 import { ReactLexicalTextEditorProps } from "./types";
 import { lexicalToHtml } from "./utils/htmlSerializer";
+import { ImagePasteUploadPlugin } from "./plugins/ImagePasteUploadPlugin";
 
 const Editor = ({
   value,
@@ -144,6 +145,7 @@ const Editor = ({
           }}
         />
         <AutoLinkPlugin />
+        <ImagePasteUploadPlugin onUpload={onUpload} />
       </div>
     </div>
   );
