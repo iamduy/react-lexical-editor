@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.8] - 2026-01-07
+
+### Added
+
+- **Error Handling**: Added `onError` prop to `ReactLexicalTextEditorProps` to allow custom error handling. The callback receives both the error object and the editor instance, providing full context for error management.
+- **HTML Configuration**: Introduced `buildHTMLConfig()` function to handle custom HTML import/export behavior, improving paste functionality and HTML serialization.
+  - Custom DOM conversion for TextNode with support for font-size, background-color, and color styles
+  - Enhanced ParagraphNode export to handle nested block elements
+  - Proper handling of inline styles during paste operations
+
+### Changed
+
+- **Type Safety**: Improved TypeScript type definitions:
+  - Added `Editor` interface extending `LexicalEditor` for better type safety
+  - Updated `initialConfig` to use `InitialConfigType` for proper typing
+  - Enhanced error callback signature to include editor instance
+- **Package Metadata**: Added more specific keywords to package.json for better discoverability (text-editor, lexical-editor, lexical-react, react-lexical, lexical-text-editor)
+
 ## [1.0.7] - 2026-01-06
 
 ### Fixed

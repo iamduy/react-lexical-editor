@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { LexicalCollaboration } from "@lexical/react/LexicalCollaborationContext";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { InitialConfigType, LexicalComposer } from "@lexical/react/LexicalComposer";
 import { SettingsContext } from "./context/SettingsContext";
 import { SharedHistoryContext } from "./context/SharedHistoryContext";
 import { ToolbarContext } from "./context/ToolbarContext";
@@ -10,18 +10,20 @@ import PlaygroundNodes from "./nodes/PlaygroundNodes";
 import { TableContext } from "./plugins/TablePlugin";
 import PlaygroundEditorTheme from "./themes/PlaygroundEditorTheme";
 import { ReactLexicalTextEditorProps } from "./types";
+import { buildHTMLConfig } from "./buildHTMLConfig";
 
 export default function App(props: ReactLexicalTextEditorProps) {
-  const { disabled = false, ...rest } = props;
+  const { disabled = false, onError, ...rest } = props;
 
-  const initialConfig = {
+  const initialConfig: InitialConfigType = {
     namespace: "ReactLexicalTextEditor",
     theme: PlaygroundEditorTheme,
-    onError: (error: Error) => {
-      console.error(error);
+    onError(error, editor) {
+      onError?.(error, editor);
     },
     nodes: PlaygroundNodes,
     editable: !disabled,
+    html: buildHTMLConfig(),
   };
   return (
     <LexicalCollaboration>

@@ -15,7 +15,12 @@
     "lexical",
     "rich-text",
     "editor",
-    "react"
+    "react",
+    "text-editor",
+    "lexical-editor",
+    "lexical-react",
+    "react-lexical",
+    "lexical-text-editor"
   ],
   "author": "SanMario",
   "license": "MIT",
