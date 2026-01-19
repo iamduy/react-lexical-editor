@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.9] - 2026-01-19
+
+### Added
+
+- **Collaboration Support**: Added `@lexical/yjs` and `yjs` to dependencies to provide core support for real-time collaboration.
+- **WebSocket Provider**: Added `y-websocket` dependency to enable multi-user editing over WebSocket connections.
+
+### Fixed
+
+- **Peer Dependencies**: Resolved a warning regarding unmet peer dependency `yjs@>=13.5.22` required by `@lexical/yjs`.
+- **Package Metadata**: Fixed `repository.url` format in `package.json` to follow npm standards (`git+https://...`).
+
 ## [1.0.8] - 2026-01-07
 
 ### Added
