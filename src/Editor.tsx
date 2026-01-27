@@ -129,8 +129,8 @@ const Editor = ({
               <div className="editor" ref={onRef}>
                 <ContentEditable
                   style={{
-                    ...style,
                     ...(autoResize && !resize ? { height: "auto", overflowY: "hidden" } : {}),
+                    ...style,
                   }}
                   placeholder={placeholder || "Enter text..."}
                 />
